@@ -3,7 +3,8 @@
 This guide will walk you through the process of deploying the `InstaNews` project, setting up dependencies, and configuring Nginx with load balancing.
 
 ---
-
+# Setting up web servers
+The following steps can be repeated to all webservers that you will need for the application. For our case, they are two, so we do it twice in each server.
 ## Step 1: Install Dependencies
 
 1. **Install Python and its dependencies**  
@@ -27,7 +28,7 @@ This guide will walk you through the process of deploying the `InstaNews` projec
 Clone the `InstaNews` project from GitHub:
 
 ```bash
-git clone https://github.com/sammy-techzard/instanews.git
+git clone https://github.com/Dengtiel/instanews-api-.git instanews
 cd instanews
 ```
 
@@ -86,61 +87,31 @@ nohup gunicorn --workers 3 --bind 0.0.0.0:8000 instanews.wsgi:application > guni
 
 ---
 
-## Step 6: Configure Nginx for Reverse Proxy
+## Step 6: allow pot 8000 exposure
 
-### 1. **Install Nginx**
-
-Install Nginx to act as a reverse proxy for Gunicorn:
+### 1. **Install ufw**
 
 ```bash
 sudo apt update
-sudo apt install nginx -y
+sudo apt install ufw
 ```
 
-### 2. **Create Nginx Configuration File**
+### 2. **Add rules**
 
-Create a configuration file for Nginx:
+This will allow them to be accessed at 8000
 
 ```bash
-sudo nano /etc/nginx/sites-available/instanews
+sudo ufw allow 8000
 ```
 
-Add the following Nginx configuration for reverse proxying requests to Gunicorn:
-
-```nginx
-server {
-    listen 80;
-    server_name ur_server_ip;
-
-    location / {
-        proxy_pass http://127.0.0.1:8000;  # Gunicorn server
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-```
-
-### 3. **Enable Nginx Configuration**
-
-Enable the Nginx configuration by linking it to the `sites-enabled` directory:
+Enable the ufw
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/instanews /etc/nginx/sites-enabled/
+sudo ufw enable
+sudo ufw status
 ```
 
-### 4. **Restart Nginx**
-
-Restart Nginx to apply the new configuration:
-
-```bash
-sudo systemctl restart nginx
-```
-
----
-
-## Step 7: Set Up Load Balancing with Nginx
+# Set Up Load Balancing with Nginx
 
 If you want to set up Nginx as a load balancer for multiple Django servers, follow these steps:
 
@@ -149,26 +120,33 @@ If you want to set up Nginx as a load balancer for multiple Django servers, foll
 Modify the `/etc/nginx/sites-available/instanews` file to define multiple backend servers (Django instances). Add the `upstream` directive to define the backend servers and balance the load.
 
 ```nginx
-http {
-    upstream django_backend {
-        # Define the backend servers (Django apps)
-        server 54.237.193.140:80;  # First server (Nginx on 80)
-        server 192.168.1.102:8000;  # Second server (Gunicorn on 8000)
-    }
 
-    server {
-        listen 80;
-        server_name ur_server_ip;
+upstream django_backend {
+    # Define the backend servers (Django apps)
+    server 54.237.193.140:80;  # First server (Nginx on 80)
+    server 192.168.1.102:8000;  # Second server (Gunicorn on 8000)
+}
 
-        location / {
-            proxy_pass http://django_backend;  # Pass requests to the upstream servers
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
+server {
+    listen 80;
+    server_name ur_server_ip;
+
+    location / {
+        proxy_pass http://django_backend;  # Pass requests to the upstream servers
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
+
+```
+### 3. **Enable Nginx Configuration**
+
+Enable the Nginx configuration by linking it to the `sites-enabled` directory:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/instanews /etc/nginx/sites-enabled/
 ```
 
 This configuration enables load balancing between two backend servers:
