@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InstaNews</title>
+  <link rel="stylesheet" href="{% static 'newsfeed/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'newsfeed/big_screens.css' %}">
+</head>
+<body>
+  <div class="container">
+    <!-- Header with Tagline -->
+    <div class="header">
+      <h1>InstaNews</h1>
+      <p>Your Gateway to Global News</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search for news...">
+      <button id="search-button">Search</button>
+    </div>
+
+    <!-- Category Buttons -->
+    <div class="category-buttons">
+      <button data-category="Politics">Politics</button>
+      <button data-category="Education">Education</button>
+      <button data-category="Business">Business</button>
+      <button data-category="Technology">Technology</button>
+      <button data-category="Sports">Sports</button>
+    </div>
+
+    <!-- News Tweets Section -->
+    <div class="tweets-section">
+      <h2 id="current-feed">News Tweets</h2>
+
+      
+
+      <!-- News Content -->
+      <div id="tweets-container"></div>
+      <!-- Preloader (Gray-scale Wave Animation) -->
+      <div id="preloader" class="preloader">
+        <div class="preloader-item">
+          <div class="image-placeholder"></div>
+          <div class="text-placeholder"></div>
+        </div>
+        <div class="preloader-item">
+          <div class="image-placeholder"></div>
+          <div class="text-placeholder"></div>
+        </div>
+        <div class="preloader-item">
+          <div class="image-placeholder"></div>
+          <div class="text-placeholder"></div>
+        </div>
+        <div class="preloader-item">
+          <div class="image-placeholder"></div>
+          <div class="text-placeholder"></div>
+        </div>
+      </div>
+
+      <div class="pagination-div">
+        <button id="next-button" style="display: none;">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'newsfeed/script.js' %}"></script>
+</body>
+</html>
