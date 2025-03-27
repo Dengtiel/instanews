@@ -98,6 +98,11 @@ sudo apt install ufw
 
 ### 2. **Add rules**
 
+First, always allow SSH to avoid getting locked out:
+
+```bash
+sudo ufw allow 22/tcp
+
 This will allow them to be accessed at 8000
 
 ```bash
