@@ -182,6 +182,6 @@ If you’ve configured load balancing, Nginx will distribute the incoming traffi
 ---
 
 ## Additional Notes
-- [![Watch the demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://youtu.be/RyiUpGG9i2Q/watch?v=YOUR_VIDEO_ID)
+- [![Watch the demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://youtu.be/RyiUpGG9i2Q?si=LAyeme5CYJ-TdQ4_/watch?v=YOUR_VIDEO_ID)
 - Ensure that you configure your DNS or `server_name` directive in Nginx correctly to point to your actual server IP.
 - If you want to set up SSL, consider using **Let's Encrypt** to configure HTTPS for secure communication.
