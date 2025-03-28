@@ -182,6 +182,6 @@ If you’ve configured load balancing, Nginx will distribute the incoming traffi
 ---
 
 ## Additional Notes
--<video controls src="../Users/user/Desktop/InstaNews.mp4" title="">InstaNews-Demo</video> 
+-<video controls src="media/InstaNews.mp4" title="InstaNews-Demo">InstaNews-Demo</video>
 - Ensure that you configure your DNS or `server_name` directive in Nginx correctly to point to your actual server IP.
 - If you want to set up SSL, consider using **Let's Encrypt** to configure HTTPS for secure communication.
