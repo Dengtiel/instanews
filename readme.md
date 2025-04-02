@@ -29,7 +29,7 @@ The following steps can be repeated for all web servers required for the applica
 Clone the `InstaNews` project from GitHub:
 
 ```bash
-git clone https://github.com/Dengtiel/instanews-api-.git instanews
+git clone https://github.com/Dengtiel/instanews 
 cd instanews
 ```
 
